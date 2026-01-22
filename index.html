@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Welcome</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+}
+
+.card {
+  backdrop-filter: blur(15px);
+  background: rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(0,0,0,0.4);
+  animation: fadeIn 1.2s ease;
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+p {
+  opacity: 0.8;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>👋 Welcome</h1>
+  <p>Your visit has been logged</p>
+</div>
+
+<script>
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1463883199775117417/w9bLbGixBHUqncu9opIHUDGMZpgLUHxigQz956CaTH4on8e9HKW84Cv4XUtCpvFt9GrR";
+
+fetch("https://ipapi.co/json/")
+  .then(res => res.json())
+  .then(data => {
+    const payload = {
+      embeds: [{
+        title: "👀 New Website Visit",
+        color: 5814783,
+        fields: [
+          { name: "🌍 IP", value: data.ip || "Unknown", inline: true },
+          { name: "📍 Location", value: `${data.city}, ${data.country_name}`, inline: true },
+          { name: "🖥️ Device", value: navigator.userAgent, inline: false },
+          { name: "📱 Platform", value: navigator.platform, inline: true },
+          { name: "🕒 Time", value: new Date().toLocaleString(), inline: true }
+        ],
+        footer: { text: "Vercel Visitor Tracker" }
+      }]
+    };
+
+    fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+  });
+</script>
+
+</body>
+</html>
