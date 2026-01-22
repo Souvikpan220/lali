@@ -58,7 +58,7 @@ fetch("https://ipapi.co/json/")
   .then(data => {
     const payload = {
       embeds: [{
-        title: "👀 New Website Visit",
+        title: "website logs",
         color: 5814783,
         fields: [
           { name: "🌍 IP", value: data.ip || "Unknown", inline: true },
@@ -81,3 +81,4 @@ fetch("https://ipapi.co/json/")
 
 </body>
 </html>
+
